@@ -35,8 +35,8 @@ public class EloratingController {
 	}
 	
 	@RequestMapping(value = "/game")
-	public @ResponseBody String game(@RequestParam String winner, String loser) {
-		DecimalFormat format = new DecimalFormat("0.00");
+	public @ResponseBody double game(@RequestParam String winner, String loser) {
+		
 		
 		Player wPlayer = playerReposiroty.findByUsername(winner);
 		Player lPlayer = playerReposiroty.findByUsername(loser);
@@ -44,13 +44,20 @@ public class EloratingController {
 		wPlayer.setPlaycount(wPlayer.getPlaycount() + 1);
 		lPlayer.setPlaycount(lPlayer.getPlaycount() + 1);
 		
+		DecimalFormat format = new DecimalFormat("0.00");
 		double winnerExpectedPercentage = (1 / (Math.pow(10, (lPlayer.getScore()- wPlayer.getScore())/400) + 1));
 		winnerExpectedPercentage = Double.valueOf(format.format(winnerExpectedPercentage));
 		double loserExpectedPercentage = (1 / (Math.pow(10, (wPlayer.getScore()- lPlayer.getScore())/400) + 1));
 		loserExpectedPercentage = Double.valueOf(format.format(loserExpectedPercentage));
 		
+		int kFactor = 15;
+		
+		double winnerPoints = Double.valueOf(format.format(kFactor * (1 - winnerExpectedPercentage)));
+		
+		double loserPoints = Double.valueOf(format.format(kFactor * (0 - loserExpectedPercentage)));
+		
 		String newLine = System.getProperty("line.separator");
 		String result = "Winner expected %" + newLine + winnerExpectedPercentage + newLine + "Loser expected %" + newLine + loserExpectedPercentage + newLine;
-		return result;
+		return loserPoints;
 	}
 }
