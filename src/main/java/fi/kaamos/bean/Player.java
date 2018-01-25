@@ -13,6 +13,7 @@ public class Player {
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int Id;
+	@Column(unique=true)
 	private String username;
 	private double score;
 	private int playcount;
