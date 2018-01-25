@@ -13,11 +13,8 @@ public class Player {
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int Id;
-	
 	private String username;
-	
-	private int score;
-	
+	private double score;
 	private int playcount;
 
 	public Player() {
@@ -48,11 +45,11 @@ public class Player {
 		this.username = username;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 

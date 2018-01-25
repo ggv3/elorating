@@ -1,5 +1,7 @@
 package fi.kaamos.controller;
 
+import java.text.DecimalFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,9 +28,29 @@ public class EloratingController {
 	public @ResponseBody String addNew(@RequestParam String username) {
 		Player player = new Player();
 		player.setUsername(username);
-		player.setScore(0);
+		player.setScore(1000);
 		player.setPlaycount(0);
 		playerReposiroty.save(player);
 		return "Player " + player.getUsername() + " added!";
+	}
+	
+	@RequestMapping(value = "/game")
+	public @ResponseBody String game(@RequestParam String winner, String loser) {
+		DecimalFormat format = new DecimalFormat("0.00");
+		
+		Player wPlayer = playerReposiroty.findByUsername(winner);
+		Player lPlayer = playerReposiroty.findByUsername(loser);
+		
+		wPlayer.setPlaycount(wPlayer.getPlaycount() + 1);
+		lPlayer.setPlaycount(lPlayer.getPlaycount() + 1);
+		
+		double winnerExpectedPercentage = (1 / (Math.pow(10, (lPlayer.getScore()- wPlayer.getScore())/400) + 1));
+		winnerExpectedPercentage = Double.valueOf(format.format(winnerExpectedPercentage));
+		double loserExpectedPercentage = (1 / (Math.pow(10, (wPlayer.getScore()- lPlayer.getScore())/400) + 1));
+		loserExpectedPercentage = Double.valueOf(format.format(loserExpectedPercentage));
+		
+		String newLine = System.getProperty("line.separator");
+		String result = "Winner expected %" + newLine + winnerExpectedPercentage + newLine + "Loser expected %" + newLine + loserExpectedPercentage + newLine;
+		return result;
 	}
 }
