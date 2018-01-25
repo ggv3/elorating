@@ -16,7 +16,7 @@ import fi.kaamos.bean.PlayerRepository;
 public class EloratingController {
 	
 	@Autowired
-	private PlayerRepository playerReposiroty;
+	private PlayerRepository playerRepository;
 
 	@RequestMapping("/help")
 	public @ResponseBody String help() {
@@ -30,16 +30,15 @@ public class EloratingController {
 		player.setUsername(username);
 		player.setScore(1000);
 		player.setPlaycount(0);
-		playerReposiroty.save(player);
+		playerRepository.save(player);
 		return "Player " + player.getUsername() + " added!";
 	}
 	
 	@RequestMapping(value = "/game")
-	public @ResponseBody double game(@RequestParam String winner, String loser) {
+	public @ResponseBody String game(@RequestParam String winner, String loser) {
 		
-		
-		Player wPlayer = playerReposiroty.findByUsername(winner);
-		Player lPlayer = playerReposiroty.findByUsername(loser);
+		Player wPlayer = playerRepository.findByUsername(winner);
+		Player lPlayer = playerRepository.findByUsername(loser);
 		
 		wPlayer.setPlaycount(wPlayer.getPlaycount() + 1);
 		lPlayer.setPlaycount(lPlayer.getPlaycount() + 1);
@@ -51,13 +50,19 @@ public class EloratingController {
 		loserExpectedPercentage = Double.valueOf(format.format(loserExpectedPercentage));
 		
 		int kFactor = 15;
-		
 		double winnerPoints = Double.valueOf(format.format(kFactor * (1 - winnerExpectedPercentage)));
-		
 		double loserPoints = Double.valueOf(format.format(kFactor * (0 - loserExpectedPercentage)));
 		
+		wPlayer.setScore(Math.round(wPlayer.getScore() + winnerPoints));
+		lPlayer.setScore(Math.round(lPlayer.getScore() + loserPoints));
+		
+		playerRepository.save(wPlayer);
+		playerRepository.save(lPlayer);
+		
 		String newLine = System.getProperty("line.separator");
-		String result = "Winner expected %" + newLine + winnerExpectedPercentage + newLine + "Loser expected %" + newLine + loserExpectedPercentage + newLine;
-		return loserPoints;
+		String result = wPlayer.getUsername() + " won " + winnerPoints + " points. new score is: " + wPlayer.getScore() + 
+				newLine + "---------------------" + newLine + 
+				lPlayer.getUsername() + " lost " + loserPoints + " points. new score is: " + lPlayer.getScore() + newLine;		
+		return result;
 	}
 }
