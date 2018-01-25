@@ -54,16 +54,18 @@ public class EloratingController {
 
 		Player wPlayer = playerRepository.findByUsername(winner);
 		Player lPlayer = playerRepository.findByUsername(loser);
-
+		
 		wPlayer.setPlaycount(wPlayer.getPlaycount() + 1);
 		lPlayer.setPlaycount(lPlayer.getPlaycount() + 1);
-
+		
+		// Count the expected winning percentage for both players
 		DecimalFormat format = new DecimalFormat("0.00");
 		double winnerExpectedPercentage = (1 / (Math.pow(10, (lPlayer.getScore() - wPlayer.getScore()) / 400) + 1));
 		winnerExpectedPercentage = Double.valueOf(format.format(winnerExpectedPercentage));
 		double loserExpectedPercentage = (1 / (Math.pow(10, (wPlayer.getScore() - lPlayer.getScore()) / 400) + 1));
 		loserExpectedPercentage = Double.valueOf(format.format(loserExpectedPercentage));
-
+		
+		// Count the actual points
 		int kFactor = 15;
 		double winnerPoints = Double.valueOf(format.format(kFactor * (1 - winnerExpectedPercentage)));
 		double loserPoints = Double.valueOf(format.format(kFactor * (0 - loserExpectedPercentage)));
