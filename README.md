@@ -4,6 +4,13 @@
 
 This API has a few endpoints, you can list all players, add a new player and update the statistics of players.
 
+ |Player	       |
+ |---------------------|
+ |id: 		integer|
+ |playcount:	integer|
+ |score:	double |
+ |username:	String | 
+
 ### Listing all players
 
 This endpoint doesn't require any parameters. It will list all the players and their information from the database.
