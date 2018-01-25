@@ -2,15 +2,25 @@
 
 ## Manual
 
-This API has two endpoints, one for adding a new player and one for updating the actual game results.
+This API has a few endpoints, you can list all players, add a new player and update the actual game results.
 
 ```.../addplayer```
 
 This endpoint requires one ```username``` parameter. It will then insert a new row into a database. You cant add two users with the same username.
+
 EXAMPLE:
 
 ```curl -d "username=Niko" -X POST .../addplayer```
+
+
 ```.../game```
+
+This endpoint requires two parameters, usernames of the winner and the loser. This method will then collect the necessary info of the sent users and calculate the correct amount of points to be subtracted form the loser and given to the winner
+
+EXAMPLE
+
+```curl -d "winner=janne&loser=niko" -X POST .../game``` 
+
 
 ## Technologies
 
