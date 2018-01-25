@@ -39,7 +39,7 @@ EXAMPLE:
 
 At the current state this API should be considered as really bare bones MVP. Should the development continue, some security should be added. JSON Web Tokens or something along those lines.
 
-## Editing a player
+### Editing a player
 
 It would be nice to have a way to edit an existing user without logging into the database. change their points, playcounts or whatever else comes to mind.
 
