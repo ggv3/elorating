@@ -17,7 +17,7 @@ EXAMPLE:
 
 This endpoint requires two parameters, usernames of the winner and the loser. This method will then collect the necessary info of the sent users and calculate the correct amount of points to be subtracted form the loser and given to the winner
 
-EXAMPLE
+EXAMPLE:
 
 ```curl -d "winner=janne&loser=niko" -X POST .../game``` 
 
