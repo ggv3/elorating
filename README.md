@@ -35,7 +35,7 @@ EXAMPLE:
 
 ```curl -d "winner=janne&loser=niko" -X POST .../game``` 
 
-##Roadmap
+## Roadmap
 
 At the current state this API should be considered as really bare bones MVP. Should the development continue, some security should be added. JSON Web Tokens or something along those lines.
 
