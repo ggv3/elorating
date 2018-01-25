@@ -2,7 +2,9 @@
 
 ## Manual
 
-This API has a few endpoints, you can list all players, add a new player and update the actual game results.
+This API has a few endpoints, you can list all players, add a new player and update the statistics of players.
+
+### Adding a player
 
 ```.../addplayer```
 
@@ -12,6 +14,7 @@ EXAMPLE:
 
 ```curl -d "username=Niko" -X POST .../addplayer```
 
+### Updating the players statistics
 
 ```.../game```
 
